@@ -1,0 +1,249 @@
+<html>
+<head>
+<title>SellerDaoJDBC.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SellerDaoJDBC.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">javafx.javafx.model.dao.impl</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.javafx.db.DB</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.db.DbException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.entities.Department</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.entities.Seller</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.model.dao.SellerDao</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.sql.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.HashMap</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Map</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">SellerDaoJDBC </span><span class="s0">implements </span><span class="s1">SellerDao {</span>
+        <span class="s0">private </span><span class="s1">Connection conn</span><span class="s0">;</span>
+
+        <span class="s0">public </span><span class="s1">SellerDaoJDBC(Connection conn){</span>
+            <span class="s0">this</span><span class="s1">.conn = conn</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">insert(Seller obj) {</span>
+            <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+            <span class="s0">try</span><span class="s1">{</span>
+                <span class="s1">st = conn.prepareStatement(</span>
+                        <span class="s2">&quot;INSERT INTO seller &quot;</span>
+                          <span class="s1">+ </span><span class="s2">&quot;(Name, Email, BirthDate, BaseSalary, DepartmentId) &quot;</span>
+                          <span class="s1">+ </span><span class="s2">&quot;VALUES &quot;</span>
+                          <span class="s1">+ </span><span class="s2">&quot;(?, ?, ?, ?, ?)&quot;</span><span class="s0">,</span>
+                        <span class="s1">Statement.RETURN_GENERATED_KEYS)</span><span class="s0">;</span>
+                <span class="s1">st.setString(</span><span class="s3">1</span><span class="s0">,</span><span class="s1">obj.getName())</span><span class="s0">;</span>
+                <span class="s1">st.setString(</span><span class="s3">2</span><span class="s0">, </span><span class="s1">obj.getEmail())</span><span class="s0">;</span>
+                <span class="s1">st.setDate(</span><span class="s3">3</span><span class="s0">,new </span><span class="s1">Date(obj.getBirthDate().getTime()))</span><span class="s0">;</span>
+                <span class="s1">st.setDouble(</span><span class="s3">4</span><span class="s0">,</span><span class="s1">obj.getBaseSalary())</span><span class="s0">;</span>
+                <span class="s1">st.setInt(</span><span class="s3">5</span><span class="s0">,</span><span class="s1">obj.getDepartment().getId())</span><span class="s0">;</span>
+
+                <span class="s0">int </span><span class="s1">rowsAffected = st.executeUpdate()</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(rowsAffected &gt; </span><span class="s3">0</span><span class="s1">){</span>
+                    <span class="s1">ResultSet rs = st.getGeneratedKeys()</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(rs.next()){</span>
+                        <span class="s0">int </span><span class="s1">id = rs.getInt(</span><span class="s3">1</span><span class="s1">)</span><span class="s0">;</span>
+                        <span class="s1">obj.setId(id)</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                    <span class="s1">DB.closeResultSet(rs)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+                <span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">throw  new </span><span class="s1">DbException(</span><span class="s2">&quot;Unexpected error! No rows affected!&quot;</span><span class="s1">)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+                <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">finally </span><span class="s1">{</span>
+                <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">update(Seller obj) {</span>
+        <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s1">st = conn.prepareStatement(</span>
+                    <span class="s2">&quot;UPDATE seller &quot;</span>
+                      <span class="s1">+ </span><span class="s2">&quot;SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? &quot;</span>
+                      <span class="s1">+ </span><span class="s2">&quot;WHERE Id = ?&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">st.setString(</span><span class="s3">1</span><span class="s0">,</span><span class="s1">obj.getName())</span><span class="s0">;</span>
+            <span class="s1">st.setString(</span><span class="s3">2</span><span class="s0">, </span><span class="s1">obj.getEmail())</span><span class="s0">;</span>
+            <span class="s1">st.setDate(</span><span class="s3">3</span><span class="s0">,new </span><span class="s1">Date(obj.getBirthDate().getTime()))</span><span class="s0">;</span>
+            <span class="s1">st.setDouble(</span><span class="s3">4</span><span class="s0">,</span><span class="s1">obj.getBaseSalary())</span><span class="s0">;</span>
+            <span class="s1">st.setInt(</span><span class="s3">5</span><span class="s0">,</span><span class="s1">obj.getDepartment().getId())</span><span class="s0">;</span>
+            <span class="s1">st.setInt(</span><span class="s3">6</span><span class="s0">,</span><span class="s1">obj.getId())</span><span class="s0">;</span>
+
+            <span class="s1">st.executeUpdate()</span><span class="s0">;</span>
+             <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+            <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">finally </span><span class="s1">{</span>
+            <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">deleteById(Integer id) {</span>
+     <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+     <span class="s0">try</span><span class="s1">{</span>
+         <span class="s1">st = conn.prepareStatement(</span><span class="s2">&quot;DELETE FROM seller &quot;</span>
+                 <span class="s1">+ </span><span class="s2">&quot;WHERE Id = ?&quot;</span><span class="s1">)</span><span class="s0">;</span>
+         <span class="s1">st.setInt(</span><span class="s3">1</span><span class="s0">,</span><span class="s1">id)</span><span class="s0">;</span>
+         <span class="s1">st.executeUpdate()</span><span class="s0">;</span>
+         <span class="s1">}</span>
+     <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+         <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+     <span class="s1">}</span>
+     <span class="s0">finally </span><span class="s1">{</span>
+         <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+     <span class="s1">}</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">Seller findById(Integer id) {</span>
+        <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+        <span class="s1">ResultSet rs = </span><span class="s0">null;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">st = conn.prepareStatement(</span>
+                    <span class="s2">&quot;SELECT seller.*,department.Name as DepName &quot;</span>
+                            <span class="s1">+ </span><span class="s2">&quot;FROM seller INNER JOIN department &quot;</span>
+                            <span class="s1">+ </span><span class="s2">&quot;ON seller.DepartmentId = department.Id &quot;</span>
+                            <span class="s1">+ </span><span class="s2">&quot;WHERE seller.Id = ?&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">st.setInt(</span><span class="s3">1</span><span class="s0">, </span><span class="s1">id)</span><span class="s0">;</span>
+            <span class="s1">rs = st.executeQuery()</span><span class="s0">;</span>
+            <span class="s0">if </span><span class="s1">(rs.next()) {</span>
+                <span class="s1">Department dep = instantiateDepartment(rs)</span><span class="s0">;</span>
+                <span class="s1">Seller obj = instantiateSeller(rs</span><span class="s0">,</span><span class="s1">dep)</span><span class="s0">;</span>
+                <span class="s0">return </span><span class="s1">obj</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">return null;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+            <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">finally </span><span class="s1">{</span>
+            <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+            <span class="s1">DB.closeResultSet(rs)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private </span><span class="s1">Seller instantiateSeller(ResultSet rs</span><span class="s0">, </span><span class="s1">Department dep) </span><span class="s0">throws </span><span class="s1">SQLException {</span>
+        <span class="s1">Seller obj = </span><span class="s0">new </span><span class="s1">Seller()</span><span class="s0">;</span>
+        <span class="s1">obj.setId(rs.getInt(</span><span class="s2">&quot;Id&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">obj.setName(rs.getString(</span><span class="s2">&quot;Name&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">obj.setEmail(rs.getString(</span><span class="s2">&quot;Email&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">obj.setBaseSalary(rs.getDouble(</span><span class="s2">&quot;BaseSalary&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">obj.setBirthDate(</span><span class="s0">new </span><span class="s1">java.util.Date(rs.getTimestamp(</span><span class="s2">&quot;BirthDate&quot;</span><span class="s1">).getTime()))</span><span class="s0">;</span>
+        <span class="s1">obj.setDepartment(dep)</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">obj</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private </span><span class="s1">Department instantiateDepartment(ResultSet rs) </span><span class="s0">throws </span><span class="s1">SQLException {</span>
+            <span class="s1">Department dep = </span><span class="s0">new </span><span class="s1">Department()</span><span class="s0">;</span>
+        <span class="s1">dep.setId(rs.getInt(</span><span class="s2">&quot;DepartmentId&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">dep.setName(rs.getString(</span><span class="s2">&quot;DepName&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s0">return </span><span class="s1">dep</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">List&lt;Seller&gt; findAll() {</span>
+
+        <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+        <span class="s1">ResultSet rs = </span><span class="s0">null;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">st = conn.prepareStatement(</span>
+                    <span class="s2">&quot;SELECT seller.*,department.Name as DepName &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;FROM seller INNER JOIN department &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;ON seller.DepartmentId = department.Id &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;ORDER BY Name&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s1">rs = st.executeQuery()</span><span class="s0">;</span>
+
+            <span class="s1">List&lt;Seller&gt; list = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+            <span class="s1">Map&lt;Integer</span><span class="s0">,</span><span class="s1">Department&gt; map = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+
+            <span class="s0">while </span><span class="s1">(rs.next()) {</span>
+
+                <span class="s1">Department dep = map.get(rs.getInt(</span><span class="s2">&quot;DepartmentId&quot;</span><span class="s1">))</span><span class="s0">;</span>
+
+                <span class="s0">if </span><span class="s1">(dep == </span><span class="s0">null</span><span class="s1">){</span>
+                    <span class="s1">dep = instantiateDepartment(rs)</span><span class="s0">;</span>
+                    <span class="s1">map.put(rs.getInt(</span><span class="s2">&quot;DepartmentId&quot;</span><span class="s1">)</span><span class="s0">,</span><span class="s1">dep)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+                <span class="s1">Seller obj = instantiateSeller(rs</span><span class="s0">,</span><span class="s1">dep)</span><span class="s0">;</span>
+                <span class="s1">list.add(obj)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">return </span><span class="s1">list</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+            <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">finally </span><span class="s1">{</span>
+            <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+            <span class="s1">DB.closeResultSet(rs)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public </span><span class="s1">List&lt;Seller&gt; findByDepartment(Department department) {</span>
+        <span class="s1">PreparedStatement st = </span><span class="s0">null;</span>
+        <span class="s1">ResultSet rs = </span><span class="s0">null;</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">st = conn.prepareStatement(</span>
+                    <span class="s2">&quot;SELECT seller.*,department.Name as DepName &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;FROM seller INNER JOIN department &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;ON seller.DepartmentId = department.Id &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;WHERE DepartmentId = ? &quot; </span><span class="s1">+</span>
+                            <span class="s2">&quot;ORDER BY Name&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">st.setInt(</span><span class="s3">1</span><span class="s0">, </span><span class="s1">department.getId())</span><span class="s0">;</span>
+            <span class="s1">rs = st.executeQuery()</span><span class="s0">;</span>
+
+            <span class="s1">List&lt;Seller&gt; list = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+            <span class="s1">Map&lt;Integer</span><span class="s0">,</span><span class="s1">Department&gt; map = </span><span class="s0">new </span><span class="s1">HashMap&lt;&gt;()</span><span class="s0">;</span>
+
+            <span class="s0">while </span><span class="s1">(rs.next()) {</span>
+
+                <span class="s1">Department dep = map.get(rs.getInt(</span><span class="s2">&quot;DepartmentId&quot;</span><span class="s1">))</span><span class="s0">;</span>
+
+                <span class="s0">if </span><span class="s1">(dep == </span><span class="s0">null</span><span class="s1">){</span>
+                    <span class="s1">dep = instantiateDepartment(rs)</span><span class="s0">;</span>
+                    <span class="s1">map.put(rs.getInt(</span><span class="s2">&quot;DepartmentId&quot;</span><span class="s1">)</span><span class="s0">,</span><span class="s1">dep)</span><span class="s0">;</span>
+                <span class="s1">}</span>
+
+                <span class="s1">Seller obj = instantiateSeller(rs</span><span class="s0">,</span><span class="s1">dep)</span><span class="s0">;</span>
+                <span class="s1">list.add(obj)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">return </span><span class="s1">list</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(SQLException e){</span>
+            <span class="s0">throw new </span><span class="s1">DbException(e.getMessage())</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">finally </span><span class="s1">{</span>
+            <span class="s1">DB.closeStatement(st)</span><span class="s0">;</span>
+            <span class="s1">DB.closeResultSet(rs)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+<span class="s1">}</span>
+</pre>
+</body>
+</html>

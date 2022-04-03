@@ -1,0 +1,58 @@
+<html>
+<head>
+<title>application.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+application.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">javafx.javafx</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.application.Application</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Parent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Scene</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.ScrollPane</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.stage.Stage</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">application </span><span class="s0">extends </span><span class="s1">Application {</span>
+
+    <span class="s0">private static </span><span class="s1">Scene mainScene</span><span class="s0">;</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">start(Stage primaryStage) {</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">FXMLLoader loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(getClass().getResource(</span><span class="s2">&quot;MainView.fxml&quot;</span><span class="s1">))</span><span class="s0">;</span>
+            <span class="s1">ScrollPane scrollPane = loader.load()</span><span class="s0">;</span>
+
+            <span class="s1">scrollPane.setFitToWidth(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">scrollPane.setFitToHeight(</span><span class="s0">true</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s1">mainScene = </span><span class="s0">new </span><span class="s1">Scene(scrollPane)</span><span class="s0">;</span>
+            <span class="s1">primaryStage.setScene(mainScene)</span><span class="s0">;</span>
+            <span class="s1">primaryStage.setTitle(</span><span class="s2">&quot;Sample JavaFX application&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">primaryStage.show()</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e){</span>
+        <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+<span class="s1">}</span>
+    <span class="s0">public static </span><span class="s1">Scene getMainScene (){</span>
+        <span class="s0">return </span><span class="s1">mainScene</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static void </span><span class="s1">main(String[] args) {</span>
+        <span class="s1">launch()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

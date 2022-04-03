@@ -1,0 +1,97 @@
+<html>
+<head>
+<title>MainViewController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MainViewController.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">javafx.javafx.gui</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.javafx.gui.util.Alerts</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.FXML</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.Initializable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.application</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.model.services.SellerService</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Node</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Scene</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.Alert</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.MenuItem</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.ScrollPane</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.VBox</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.model.services.DepartmentService</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.net.URL</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ResourceBundle</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.function.Consumer</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">MainViewController </span><span class="s0">implements </span><span class="s1">Initializable {</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">MenuItem menuItemSeller</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">MenuItem menuItemDepartment</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">MenuItem menuItemAbout</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">public void </span><span class="s1">onMenuItemSellerAction() {</span>
+
+        <span class="s1">loadView(</span><span class="s2">&quot;SellerList.fxml&quot;</span><span class="s0">,</span><span class="s1">(SellerListController controller) -&gt; {</span>
+            <span class="s1">controller.setSellerService(</span><span class="s0">new </span><span class="s1">SellerService())</span><span class="s0">;</span>
+            <span class="s1">controller.updateTableView()</span><span class="s0">;</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s1">@FXML</span>
+    <span class="s0">public void </span><span class="s1">onMenuItemDeparmentAction() {</span>
+
+        <span class="s1">loadView(</span><span class="s2">&quot;DepartmentList.fxml&quot;</span><span class="s0">,</span><span class="s1">(DepartmentListController controller) -&gt; {</span>
+            <span class="s1">controller.setDeparmentService(</span><span class="s0">new </span><span class="s1">DepartmentService())</span><span class="s0">;</span>
+            <span class="s1">controller.updateTableView()</span><span class="s0">;</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s1">@FXML</span>
+    <span class="s0">public void </span><span class="s1">onMenuItemAboutAction() {</span>
+         <span class="s1">loadView(</span><span class="s2">&quot;About.fxml&quot;</span><span class="s0">, </span><span class="s1">x -&gt; {})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">initialize(URL uri</span><span class="s0">, </span><span class="s1">ResourceBundle rb) {</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private synchronized </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">loadView (String absoluteName</span><span class="s0">, </span><span class="s1">Consumer&lt;T&gt; initializingAction){</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">FXMLLoader loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(application.</span><span class="s0">class</span><span class="s1">.getResource(absoluteName))</span><span class="s0">;</span>
+            <span class="s1">VBox newVbox = loader.load()</span><span class="s0">;</span>
+
+            <span class="s1">Scene mainScene = application.getMainScene()</span><span class="s0">;</span>
+            <span class="s1">VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent()</span><span class="s0">;</span>
+
+            <span class="s1">Node mainMenu = mainVBox.getChildren().get(</span><span class="s3">0</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">mainVBox.getChildren().clear()</span><span class="s0">;</span>
+            <span class="s1">mainVBox.getChildren().add(mainMenu)</span><span class="s0">;</span>
+            <span class="s1">mainVBox.getChildren().addAll(newVbox.getChildren())</span><span class="s0">;</span>
+
+            <span class="s1">T controller = loader.getController()</span><span class="s0">;</span>
+            <span class="s1">initializingAction.accept(controller)</span><span class="s0">;</span>
+
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(IOException e) {</span>
+            <span class="s1">Alerts.showAlert(</span><span class="s2">&quot;IOException&quot;</span><span class="s0">, </span><span class="s2">&quot;Error loading view&quot;</span><span class="s0">,</span><span class="s1">e.getMessage()</span><span class="s0">, </span><span class="s1">Alert.AlertType.ERROR)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span></pre>
+</body>
+</html>

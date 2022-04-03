@@ -1,0 +1,119 @@
+<html>
+<head>
+<title>Utils.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+Utils.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">javafx.javafx.gui.util</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Node</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.DatePicker</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.TableCell</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.TableColumn</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.stage.Stage</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.util.StringConverter</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.text.SimpleDateFormat</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.time.LocalDate</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.time.format.DateTimeFormatter</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Date</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Locale</span><span class="s0">;</span>
+
+
+<span class="s0">public class </span><span class="s1">Utils {</span>
+
+    <span class="s0">public static </span><span class="s1">Stage currentStage (ActionEvent event){</span>
+        <span class="s0">return </span><span class="s1">(Stage) ((Node) event.getSource()).getScene().getWindow()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">Integer tryParseToInt (String str){</span>
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s0">return </span><span class="s1">Integer.parseInt(str)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(NumberFormatException e){</span>
+            <span class="s0">return null;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+    <span class="s0">public static </span><span class="s1">Double tryParseToDouble (String str){</span>
+        <span class="s0">try</span><span class="s1">{</span>
+            <span class="s0">return </span><span class="s1">Double.parseDouble(str)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s0">catch </span><span class="s1">(NumberFormatException e){</span>
+            <span class="s0">return null;</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public static </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">formatTableColumnDate(TableColumn&lt;T</span><span class="s0">, </span><span class="s1">Date&gt; tableColumn</span><span class="s0">, </span><span class="s1">String format) {</span>
+        <span class="s1">tableColumn.setCellFactory(column -&gt; {</span>
+            <span class="s1">TableCell&lt;T</span><span class="s0">, </span><span class="s1">Date&gt; cell = </span><span class="s0">new </span><span class="s1">TableCell&lt;T</span><span class="s0">, </span><span class="s1">Date&gt;() {</span>
+                <span class="s0">private </span><span class="s1">SimpleDateFormat sdf = </span><span class="s0">new </span><span class="s1">SimpleDateFormat(format)</span><span class="s0">;</span>
+
+                <span class="s1">@Override</span>
+                <span class="s0">protected void </span><span class="s1">updateItem(Date item</span><span class="s0">, boolean </span><span class="s1">empty) {</span>
+                    <span class="s0">super</span><span class="s1">.updateItem(item</span><span class="s0">, </span><span class="s1">empty)</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(empty) {</span>
+                        <span class="s1">setText(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">setText(sdf.format(item))</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span><span class="s0">;</span>
+            <span class="s0">return </span><span class="s1">cell</span><span class="s0">;</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">public static </span><span class="s1">&lt;T&gt; </span><span class="s0">void </span><span class="s1">formatTableColumnDouble(TableColumn&lt;T</span><span class="s0">, </span><span class="s1">Double&gt; tableColumn</span><span class="s0">, int </span><span class="s1">decimalPlaces) {</span>
+        <span class="s1">tableColumn.setCellFactory(column -&gt; {</span>
+            <span class="s1">TableCell&lt;T</span><span class="s0">, </span><span class="s1">Double&gt; cell = </span><span class="s0">new </span><span class="s1">TableCell&lt;T</span><span class="s0">, </span><span class="s1">Double&gt;() {</span>
+                <span class="s1">@Override</span>
+                <span class="s0">protected void </span><span class="s1">updateItem(Double item</span><span class="s0">, boolean </span><span class="s1">empty) {</span>
+                    <span class="s0">super</span><span class="s1">.updateItem(item</span><span class="s0">, </span><span class="s1">empty)</span><span class="s0">;</span>
+                    <span class="s0">if </span><span class="s1">(empty) {</span>
+                        <span class="s1">setText(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                        <span class="s1">Locale.setDefault(Locale.US)</span><span class="s0">;</span>
+                        <span class="s1">setText(String.format(</span><span class="s2">&quot;%.&quot; </span><span class="s1">+ decimalPlaces + </span><span class="s2">&quot;f&quot;</span><span class="s0">, </span><span class="s1">item))</span><span class="s0">;</span>
+                    <span class="s1">}</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span><span class="s0">;</span>
+            <span class="s0">return </span><span class="s1">cell</span><span class="s0">;</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+    <span class="s0">public static void </span><span class="s1">formatDatePicker(DatePicker datePicker</span><span class="s0">, </span><span class="s1">String format) {</span>
+        <span class="s1">datePicker.setConverter(</span><span class="s0">new </span><span class="s1">StringConverter&lt;LocalDate&gt;() {</span>
+            <span class="s1">DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(format)</span><span class="s0">;</span>
+            <span class="s1">{</span>
+                <span class="s1">datePicker.setPromptText(format.toLowerCase())</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public </span><span class="s1">String toString(LocalDate date) {</span>
+                <span class="s0">if </span><span class="s1">(date != </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s0">return </span><span class="s1">dateFormatter.format(date)</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">return </span><span class="s2">&quot;&quot;</span><span class="s0">;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+            <span class="s1">@Override</span>
+            <span class="s0">public </span><span class="s1">LocalDate fromString(String string) {</span>
+                <span class="s0">if </span><span class="s1">(string != </span><span class="s0">null </span><span class="s1">&amp;&amp; !string.isEmpty()) {</span>
+                    <span class="s0">return </span><span class="s1">LocalDate.parse(string</span><span class="s0">, </span><span class="s1">dateFormatter)</span><span class="s0">;</span>
+                <span class="s1">} </span><span class="s0">else </span><span class="s1">{</span>
+                    <span class="s0">return null;</span>
+                <span class="s1">}</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+  <span class="s1">}</span>
+</pre>
+</body>
+</html>

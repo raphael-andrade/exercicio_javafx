@@ -1,0 +1,213 @@
+<html>
+<head>
+<title>SellerListController.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6a8759;}
+.s3 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SellerListController.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">javafx.javafx.gui</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">javafx.beans.property.ReadOnlyObjectWrapper</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.collections.FXCollections</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.collections.ObservableList</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.event.ActionEvent</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.FXML</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.FXMLLoader</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.fxml.Initializable</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.application</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.db.DbIntegrityException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.entities.Seller</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.gui.listeners.DataChangeListener</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.gui.util.Alerts</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.gui.util.Utils</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.model.services.DepartmentService</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.javafx.model.services.SellerService</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.Scene</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.*</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.control.cell.PropertyValueFactory</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.scene.layout.Pane</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.stage.Modality</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">javafx.stage.Stage</span><span class="s0">;</span>
+
+<span class="s0">import </span><span class="s1">java.io.IOException</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.net.URL</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Date</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.List</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.Optional</span><span class="s0">;</span>
+<span class="s0">import </span><span class="s1">java.util.ResourceBundle</span><span class="s0">;</span>
+
+<span class="s0">public class </span><span class="s1">SellerListController </span><span class="s0">implements </span><span class="s1">Initializable</span><span class="s0">, </span><span class="s1">DataChangeListener {</span>
+
+    <span class="s0">private </span><span class="s1">SellerService service</span><span class="s0">;</span>
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableView&lt;Seller&gt; tableViewSeller</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">Integer&gt; tableColumnID</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">String&gt; tableColumnName</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">String&gt; tableColumnEmail</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">Date&gt; tableColumnBirthDate</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">Double&gt; tableColumnBaseSalary</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">Seller&gt; tableColumnEDIT</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">TableColumn&lt;Seller</span><span class="s0">, </span><span class="s1">Seller&gt; tableColumnREMOVE</span><span class="s0">;</span>
+
+    <span class="s1">@FXML</span>
+    <span class="s0">private </span><span class="s1">Button btNew</span><span class="s0">;</span>
+
+    <span class="s0">private </span><span class="s1">ObservableList&lt;Seller&gt; obsList</span><span class="s0">;</span>
+
+
+    <span class="s1">@FXML</span>
+    <span class="s0">public void </span><span class="s1">onBtNewAction(ActionEvent event) {</span>
+        <span class="s1">Stage parentStage = Utils.currentStage(event)</span><span class="s0">;</span>
+        <span class="s1">Seller obj = </span><span class="s0">new </span><span class="s1">Seller()</span><span class="s0">;</span>
+        <span class="s1">createDialogForm(obj</span><span class="s0">, </span><span class="s2">&quot;SellerForm.fxml&quot;</span><span class="s0">, </span><span class="s1">parentStage)</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">setSellerService(SellerService service) {</span>
+        <span class="s0">this</span><span class="s1">.service = service</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">initialize(URL url</span><span class="s0">, </span><span class="s1">ResourceBundle rb) {</span>
+        <span class="s1">initializeNodes()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">initializeNodes() {</span>
+        <span class="s1">tableColumnID.setCellValueFactory(</span><span class="s0">new </span><span class="s1">PropertyValueFactory&lt;&gt;(</span><span class="s2">&quot;Id&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">tableColumnName.setCellValueFactory(</span><span class="s0">new </span><span class="s1">PropertyValueFactory&lt;&gt;(</span><span class="s2">&quot;Name&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">tableColumnEmail.setCellValueFactory(</span><span class="s0">new </span><span class="s1">PropertyValueFactory&lt;&gt;(</span><span class="s2">&quot;Email&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">tableColumnBirthDate.setCellValueFactory(</span><span class="s0">new </span><span class="s1">PropertyValueFactory&lt;&gt;(</span><span class="s2">&quot;BirthDate&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">Utils.formatTableColumnDate(tableColumnBirthDate</span><span class="s0">,</span><span class="s2">&quot;dd/MM/yyyy&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">tableColumnBaseSalary.setCellValueFactory(</span><span class="s0">new </span><span class="s1">PropertyValueFactory&lt;&gt;(</span><span class="s2">&quot;BaseSalary&quot;</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">Utils.formatTableColumnDouble(tableColumnBaseSalary</span><span class="s0">,</span><span class="s3">2</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">Stage stage = (Stage) application.getMainScene().getWindow()</span><span class="s0">;</span>
+        <span class="s1">tableViewSeller.prefHeightProperty().bind(stage.heightProperty())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">public void </span><span class="s1">updateTableView() {</span>
+        <span class="s0">if </span><span class="s1">(service == </span><span class="s0">null</span><span class="s1">) {</span>
+            <span class="s0">throw new </span><span class="s1">IllegalStateException(</span><span class="s2">&quot;Service was null&quot;</span><span class="s1">)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+        <span class="s1">List&lt;Seller&gt; list = service.findAll()</span><span class="s0">;</span>
+        <span class="s1">obsList = FXCollections.observableArrayList(list)</span><span class="s0">;</span>
+        <span class="s1">tableViewSeller.setItems(obsList)</span><span class="s0">;</span>
+        <span class="s1">initEditButtons()</span><span class="s0">;</span>
+        <span class="s1">initRemoveButtons()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">createDialogForm(Seller obj</span><span class="s0">, </span><span class="s1">String absoluteName</span><span class="s0">, </span><span class="s1">Stage parentStage) {</span>
+        <span class="s0">try </span><span class="s1">{</span>
+            <span class="s1">FXMLLoader loader = </span><span class="s0">new </span><span class="s1">FXMLLoader(application.</span><span class="s0">class</span><span class="s1">.getResource(absoluteName))</span><span class="s0">;</span>
+            <span class="s1">Pane pane = loader.load()</span><span class="s0">;</span>
+
+            <span class="s1">SellerFormController controller = loader.getController()</span><span class="s0">;</span>
+            <span class="s1">controller.setSeller(obj)</span><span class="s0">;</span>
+            <span class="s1">controller.setServices(</span><span class="s0">new </span><span class="s1">SellerService()</span><span class="s0">, new </span><span class="s1">DepartmentService())</span><span class="s0">;</span>
+            <span class="s1">controller.loadAssociatedObjects()</span><span class="s0">;</span>
+            <span class="s1">controller.subscribeDataChangeListeners(</span><span class="s0">this</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">controller.updateFormData()</span><span class="s0">;</span>
+
+
+            <span class="s1">Stage dialogStage = </span><span class="s0">new </span><span class="s1">Stage()</span><span class="s0">;</span>
+            <span class="s1">dialogStage.setTitle(</span><span class="s2">&quot;Enter Seller data&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">dialogStage.setScene(</span><span class="s0">new </span><span class="s1">Scene(pane))</span><span class="s0">;</span>
+            <span class="s1">dialogStage.setResizable(</span><span class="s0">false</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">dialogStage.initOwner(parentStage)</span><span class="s0">;</span>
+            <span class="s1">dialogStage.initModality(Modality.WINDOW_MODAL)</span><span class="s0">;</span>
+            <span class="s1">dialogStage.showAndWait()</span><span class="s0">;</span>
+        <span class="s1">} </span><span class="s0">catch </span><span class="s1">(IOException e) {</span>
+            <span class="s1">e.printStackTrace()</span><span class="s0">;</span>
+            <span class="s1">Alerts.showAlert(</span><span class="s2">&quot;IO Exception&quot;</span><span class="s0">, </span><span class="s2">&quot;Error loading view&quot;</span><span class="s0">, </span><span class="s1">e.getMessage()</span><span class="s0">, </span><span class="s1">Alert.AlertType.ERROR)</span><span class="s0">;</span>
+        <span class="s1">}</span>
+
+    <span class="s1">}</span>
+
+    <span class="s1">@Override</span>
+    <span class="s0">public void </span><span class="s1">onDataChanged() {</span>
+
+        <span class="s1">updateTableView()</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">initEditButtons() {</span>
+        <span class="s1">tableColumnEDIT.setCellValueFactory(param -&gt; </span><span class="s0">new </span><span class="s1">ReadOnlyObjectWrapper&lt;&gt;(param.getValue()))</span><span class="s0">;</span>
+        <span class="s1">tableColumnEDIT.setCellFactory(param -&gt; </span><span class="s0">new </span><span class="s1">TableCell&lt;Seller</span><span class="s0">, </span><span class="s1">Seller&gt;() {</span>
+            <span class="s0">private final </span><span class="s1">Button button = </span><span class="s0">new </span><span class="s1">Button(</span><span class="s2">&quot;edit&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">protected void </span><span class="s1">updateItem(Seller obj</span><span class="s0">, boolean </span><span class="s1">empty) {</span>
+                <span class="s0">super</span><span class="s1">.updateItem(obj</span><span class="s0">, </span><span class="s1">empty)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(obj == </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s1">setGraphic(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s0">return;</span>
+                <span class="s1">}</span>
+                <span class="s1">setGraphic(button)</span><span class="s0">;</span>
+                <span class="s1">button.setOnAction(</span>
+                        <span class="s1">event -&gt; createDialogForm(</span>
+                                <span class="s1">obj</span><span class="s0">, </span><span class="s2">&quot;SellerForm.fxml&quot;</span><span class="s0">, </span><span class="s1">Utils.currentStage(event)))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">initRemoveButtons() {</span>
+        <span class="s1">tableColumnREMOVE.setCellValueFactory(param -&gt; </span><span class="s0">new </span><span class="s1">ReadOnlyObjectWrapper&lt;&gt;(param.getValue()))</span><span class="s0">;</span>
+        <span class="s1">tableColumnREMOVE.setCellFactory(param -&gt; </span><span class="s0">new </span><span class="s1">TableCell&lt;Seller</span><span class="s0">, </span><span class="s1">Seller&gt;() {</span>
+            <span class="s0">private final </span><span class="s1">Button button = </span><span class="s0">new </span><span class="s1">Button(</span><span class="s2">&quot;remove&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+            <span class="s1">@Override</span>
+            <span class="s0">protected void </span><span class="s1">updateItem(Seller obj</span><span class="s0">, boolean </span><span class="s1">empty) {</span>
+                <span class="s0">super</span><span class="s1">.updateItem(obj</span><span class="s0">, </span><span class="s1">empty)</span><span class="s0">;</span>
+                <span class="s0">if </span><span class="s1">(obj == </span><span class="s0">null</span><span class="s1">) {</span>
+                    <span class="s1">setGraphic(</span><span class="s0">null</span><span class="s1">)</span><span class="s0">;</span>
+                    <span class="s0">return;</span>
+                <span class="s1">}</span>
+                <span class="s1">setGraphic(button)</span><span class="s0">;</span>
+                <span class="s1">button.setOnAction(event -&gt; removeEntity(obj))</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">})</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    <span class="s0">private void </span><span class="s1">removeEntity(Seller obj) {</span>
+        <span class="s1">Optional&lt;ButtonType&gt; result = Alerts.showConfirmation(</span><span class="s2">&quot;Confirmation&quot;</span><span class="s0">,</span><span class="s2">&quot;Are you sure to delete?&quot;</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s0">if </span><span class="s1">(result.get() == ButtonType.OK){</span>
+            <span class="s0">if </span><span class="s1">(service == </span><span class="s0">null</span><span class="s1">){</span>
+                <span class="s0">throw new </span><span class="s1">IllegalStateException(</span><span class="s2">&quot;Service was null&quot;</span><span class="s1">)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">try </span><span class="s1">{</span>
+                <span class="s1">service.remove(obj)</span><span class="s0">;</span>
+                <span class="s1">updateTableView()</span><span class="s0">;</span>
+            <span class="s1">}</span>
+            <span class="s0">catch </span><span class="s1">(DbIntegrityException e){</span>
+                <span class="s1">Alerts.showAlert(</span><span class="s2">&quot;Error removing object&quot;</span><span class="s0">, null, </span><span class="s1">e.getMessage()</span><span class="s0">, </span><span class="s1">Alert.AlertType.ERROR)</span><span class="s0">;</span>
+            <span class="s1">}</span>
+        <span class="s1">}</span>
+    <span class="s1">}</span>
+<span class="s1">}</span>
+
+</pre>
+</body>
+</html>

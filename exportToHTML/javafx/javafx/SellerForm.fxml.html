@@ -1,0 +1,77 @@
+<html>
+<head>
+<title>SellerForm.fxml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SellerForm.fxml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;UTF-8&quot;</span><span class="s0">?&gt;</span>
+
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.control.Button</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.control.ComboBox</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.control.DatePicker</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.control.Label</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.control.TextField</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.layout.AnchorPane</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.layout.ColumnConstraints</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.layout.GridPane</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.layout.HBox</span><span class="s0">?&gt;</span>
+<span class="s0">&lt;?</span><span class="s1">import </span><span class="s2">javafx.scene.layout.RowConstraints</span><span class="s0">?&gt;</span>
+
+<span class="s0">&lt;AnchorPane </span><span class="s1">prefHeight</span><span class="s2">=&quot;249.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;597.0&quot; </span><span class="s1">xmlns</span><span class="s2">=&quot;http://javafx.com/javafx/17&quot; </span><span class="s1">xmlns:fx</span><span class="s2">=&quot;http://javafx.com/fxml/1&quot; </span><span class="s1">fx:controller</span><span class="s2">=&quot;javafx.javafx.gui.SellerFormController&quot;</span><span class="s0">&gt;</span>
+    <span class="s0">&lt;children&gt;</span>
+        <span class="s0">&lt;GridPane </span><span class="s1">prefHeight</span><span class="s2">=&quot;221.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;591.0&quot; </span><span class="s1">AnchorPane.leftAnchor</span><span class="s2">=&quot;20.0&quot; </span><span class="s1">AnchorPane.topAnchor</span><span class="s2">=&quot;20.0&quot;</span><span class="s0">&gt;</span>
+            <span class="s0">&lt;columnConstraints&gt;</span>
+                <span class="s0">&lt;ColumnConstraints </span><span class="s1">hgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s1">maxWidth</span><span class="s2">=&quot;190.0&quot; </span><span class="s1">minWidth</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;88.0&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;ColumnConstraints </span><span class="s1">hgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s1">maxWidth</span><span class="s2">=&quot;304.0&quot; </span><span class="s1">minWidth</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;242.0&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;ColumnConstraints </span><span class="s1">hgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s1">maxWidth</span><span class="s2">=&quot;210.0&quot; </span><span class="s1">minWidth</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;210.0&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/columnConstraints&gt;</span>
+            <span class="s0">&lt;rowConstraints&gt;</span>
+                <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;RowConstraints </span><span class="s1">minHeight</span><span class="s2">=&quot;10.0&quot; </span><span class="s1">prefHeight</span><span class="s2">=&quot;30.0&quot; </span><span class="s1">vgrow</span><span class="s2">=&quot;SOMETIMES&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/rowConstraints&gt;</span>
+            <span class="s0">&lt;children&gt;</span>
+                <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;Id&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;Name&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;1&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;TextField </span><span class="s1">fx:id</span><span class="s2">=&quot;txtId&quot; </span><span class="s1">editable</span><span class="s2">=&quot;false&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;TextField </span><span class="s1">fx:id</span><span class="s2">=&quot;txtName&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;1&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;TextField </span><span class="s1">fx:id</span><span class="s2">=&quot;txtEmail&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;2&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;DatePicker </span><span class="s1">fx:id</span><span class="s2">=&quot;dpBirthDate&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;3&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;TextField </span><span class="s1">fx:id</span><span class="s2">=&quot;txtBaseSalary&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;4&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;ComboBox </span><span class="s1">fx:id</span><span class="s2">=&quot;comboBoxDepartment&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;150.0&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;5&quot; </span><span class="s0">/&gt;</span>
+                <span class="s0">&lt;HBox </span><span class="s1">prefHeight</span><span class="s2">=&quot;100.0&quot; </span><span class="s1">prefWidth</span><span class="s2">=&quot;200.0&quot; </span><span class="s1">spacing</span><span class="s2">=&quot;5.0&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;1&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;6&quot;</span><span class="s0">&gt;</span>
+                    <span class="s0">&lt;children&gt;</span>
+                        <span class="s0">&lt;Button </span><span class="s1">fx:id</span><span class="s2">=&quot;btSave&quot; </span><span class="s1">mnemonicParsing</span><span class="s2">=&quot;false&quot; </span><span class="s1">onAction</span><span class="s2">=&quot;#onBtSaveAction&quot; </span><span class="s1">text</span><span class="s2">=&quot;Save&quot; </span><span class="s0">/&gt;</span>
+                        <span class="s0">&lt;Button </span><span class="s1">fx:id</span><span class="s2">=&quot;btCancel&quot; </span><span class="s1">mnemonicParsing</span><span class="s2">=&quot;false&quot; </span><span class="s1">onAction</span><span class="s2">=&quot;#onBtCancelAction&quot; </span><span class="s1">text</span><span class="s2">=&quot;Cancel&quot; </span><span class="s0">/&gt;</span>
+                      <span class="s0">&lt;Label </span><span class="s1">fx:id</span><span class="s2">=&quot;labelErrorName&quot; </span><span class="s1">textFill</span><span class="s2">=&quot;#ee0202&quot; </span><span class="s0">/&gt;</span>
+                    <span class="s0">&lt;/children&gt;</span>
+                <span class="s0">&lt;/HBox&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;Email&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;2&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;BirthDate&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;3&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;Base Salary&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;4&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">text</span><span class="s2">=&quot;Department&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;5&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">fx:id</span><span class="s2">=&quot;labelErrorEmail&quot; </span><span class="s1">textFill</span><span class="s2">=&quot;#f50202&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;2&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;2&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">fx:id</span><span class="s2">=&quot;labelErrorBirthDate&quot; </span><span class="s1">textFill</span><span class="s2">=&quot;#fa0202&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;2&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;3&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;Label </span><span class="s1">fx:id</span><span class="s2">=&quot;labelErrorBaseSalary&quot; </span><span class="s1">textFill</span><span class="s2">=&quot;#f20303&quot; </span><span class="s1">GridPane.columnIndex</span><span class="s2">=&quot;2&quot; </span><span class="s1">GridPane.rowIndex</span><span class="s2">=&quot;4&quot; </span><span class="s0">/&gt;</span>
+            <span class="s0">&lt;/children&gt;</span>
+        <span class="s0">&lt;/GridPane&gt;</span>
+    <span class="s0">&lt;/children&gt;</span>
+<span class="s0">&lt;/AnchorPane&gt;</span>
+</pre>
+</body>
+</html>
